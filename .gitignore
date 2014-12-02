@@ -1,0 +1,16 @@
+
+*.txt
+
+*.waData
+
+*.waIndx
+
+*.waJournal
+
+*.waSym
+
+*.waSymData
+
+*.cacheUAG
+
+*.WakTDef

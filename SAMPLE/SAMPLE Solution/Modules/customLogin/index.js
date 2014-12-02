@@ -8,33 +8,45 @@ var LOGIN_ERROR = {
 	'INVALID_NAME_OR_PASSWORD':{error:2, errorMessage:'User name or password is invalid.'}
 }
 
-var setListener = function(listenerName){
-	directory.setLoginListener(listenerName, ADMIN_GROUP_NAME);
-	return !!directory.getLoginListener().length;
+var removeListener = function(){
+	directory.setLoginListener('');
 }
 
-var User = (function(){
+var setListener = function(listenerName){
+	directory.setLoginListener(listenerName, ADMIN_GROUP_NAME);
+	var loginListener = directory.getLoginListener();
+	if(loginListener.length){
+		console.log('custom login listener installed: %s', loginListener);	
+	}else{
+		console.error('failed to install custom login listener: %s', listenerName);		
+	}
+}
+
+var directoryProject = (function(){
 	var applicationName;
 	for(var i = 0;i < solution.applications.length;++i){
 		applicationName = solution.applications[i].name;
 		if(DIRECTORY_DS_NAME === applicationName){
-			return solution.applications[i].ds.User;
+			return solution.applications[i];
 		}
 	}
 	return null;
 })();
 
-//because class methods and events are not exported across projects,
+var User = directoryProject ? directoryProject.ds.User : null;
+
+//because class methods and events are not exported across projects
 //they must be implemented and exposed here;
-var createUser = function(userName, userGroup, userPassword){
+var createUser = function(userName, userFullName, userGroup, userPassword){
 	var user = new User();
-	user.name = userName;//avoid obfuscation of application.name 
+	user.account = userName;//avoid obfuscation of application.name 
+	user.name = userFullName;
 	setUserGroup(user, userGroup);	
 	setUserPassword(user, userPassword);
 	return saveUser(user);	
 }
 
-//because class methods and events are not exported across projects,
+//because class methods and events are not exported across projects
 //they must be implemented and exposed here;
 function verifyUser(user, password){
 	if(user && password){
@@ -45,7 +57,7 @@ function verifyUser(user, password){
 	return false;
 }
 
-//would have been events.set if cross project export was possible)
+//would have been events.set if cross project export was possible
 function setUserGroup(user, groupName){
 	user.group = null;
 	var group = directory.group(groupName);
@@ -54,7 +66,7 @@ function setUserGroup(user, groupName){
 	}
 }
 
-//would have been events.set if cross project export was possible)
+//would have been events.set if cross project export was possible
 function setUserPassword(user, password){
 	user.password = null;
 	if(password){
@@ -64,31 +76,31 @@ function setUserPassword(user, password){
 	}
 }
 
-//just to supress the errors
+//simplistic API, true of false
 function saveUser(user){
 	try{
 		return user.save();
 	}catch(e){
-		console.log(JSON.stringify(e));
+		for(var i = 0;i < e.messages.length;++i){
+			console.error('%s', e.messages[i]);			
+		}
 	}
 	return false;
 }
 
-//this one will be exported	
-var changeUserPassword = function(user, oldPassword, newPassword){
-	if(verifyUser(user, oldPassword)){
-		setUserPassword(user, newPassword);
-		return saveUser(user);	
-	}			
-	return false;
+function findUser(userName){
+	if(userName){
+		return User.find('account ===  :1', userName);
+	}else{
+		return null;
+	}
 }
 
 exports.login = function(userName, password, isKey){
 	if(!isKey){	
     	if(User && userName){
     		//avoid obfuscation of application.name 
-			var user = User.find('name ===  :1', userName);
-		
+			var user = findUser(userName);
 			if(!verifyUser(user, password)){
 				return LOGIN_ERROR.WRONG_NAME_OR_PASSWORD;
 			}
@@ -96,13 +108,13 @@ exports.login = function(userName, password, isKey){
 			var group = directory.group(user.group);
 		
 			return { 
-	            'ID':user.uuid, 
-	            'name':user.name, 
+	            'ID':user.id, 
+	            'name':user.account, 
 	            'fullName':user.name,
 	            'belongsTo':[group.ID]
 	    	};
     	}else{
-    		console.error('The Directory project is missing.');
+    		console.error('the directory project is missing or not ready.');
     	}	
 	}else{
 		//starting from WAK10 the studio seems to send passwords as hash;
@@ -112,10 +124,64 @@ exports.login = function(userName, password, isKey){
 	}	
 }
 
-//shame class methods and events can't be exported across projects
+var clear = function(){
+	User.remove();
+};
+
+var countUsers = function(){
+	return User.length;
+};
+
+var getUser = function(userName){
+	var user = findUser(userName);
+	if(user){
+		return {
+			'account':user.account, 
+			'name':user.name, 
+			'group':directory.group(user.group).name};
+	}
+	return user;
+};
+
+var getUsers = function(){
+	var users = [];
+	User.all().forEach(function(user, i){
+		users.push({
+				'account':user.account, 
+				'name':user.name, 
+				'group':directory.group(user.group).name
+			});
+	});
+	return users;
+};
+
+var removeUser = function(userName){
+	var user = findUser(userName);
+	if(user){
+		user.remove();
+		return !findUser(userName);
+	}
+	return false;
+};
+
+var changeUserPassword = function(userName, oldPassword, newPassword){
+	var user = findUser(userName);
+	if(verifyUser(user, oldPassword)){
+		setUserPassword(user, newPassword);
+		return saveUser(user);	
+	}				
+	return false;
+}
+
+//only authorized operations should be exported
+exports.clear = clear;
+exports.countUsers = countUsers;
+exports.getUser = getUser;
+exports.getUsers = getUsers;
+exports.removeUser = removeUser;
+
 exports.changeUserPassword = changeUserPassword;
 exports.createUser = createUser;
-exports.setListener = setListener;
 
-//an alias to the Directory project's dataclass
-exports.User = User;
+exports.setListener = setListener;
+exports.removeListener = removeListener;
