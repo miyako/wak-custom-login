@@ -1,0 +1,1 @@
+﻿//the module should be installed in the solution's modules folder//the directory should be made accesible by the solution's filesystems.jsonvar modulesFolder = FileSystemSync('Modules');var customLogin = require(modulesFolder.path + 'customLogin');//pass the name of the function defined in solution/required.jscustomLogin.setListener('userLogin');

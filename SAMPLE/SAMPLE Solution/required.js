@@ -1,0 +1,1 @@
+﻿//must be a function published in the global context//http://doc.wakanda.org/Users-and-Groups/Directory/setLoginListener.301-871936.en.html function userLogin(userName, password, isKey){		var modulesFolder = FileSystemSync('Modules');	var customLogin = require(modulesFolder.path + "customLogin");		return customLogin.login(userName, password, isKey);}

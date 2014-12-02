@@ -1,0 +1,90 @@
+
+{
+	"toJSON" : true,
+	"extraProperties" : 
+	{
+		"version" : "2",
+		"classes" : 
+		{
+			"User" : 
+			{
+				"panelColor" : "#B2A2C7",
+				"panel" : 
+				{
+					"isOpen" : "true",
+					"position" : 
+					{
+						"X" : 25,
+						"Y" : 20
+					}
+				}
+			}
+		},
+		"model" : 
+		{
+			"scriptMode" : "manual",
+			"workspaceLeft" : 0,
+			"workspaceTop" : 0
+		}
+	},
+	"dataClasses" : 
+	[
+		{
+			"name" : "User",
+			"className" : "User",
+			"collectionName" : "Users",
+			"scope" : "publicOnServer",
+			"allowOverrideStamp" : true,
+			"defaultTopSize" : 10,
+			"noEdit" : true,
+			"noSave" : true,
+			"attributes" : 
+			[
+				{
+					"name" : "id",
+					"kind" : "storage",
+					"scope" : "publicOnServer",
+					"indexed" : true,
+					"unique" : true,
+					"autogenerate" : true,
+					"type" : "uuid",
+					"indexKind" : "btree"
+				},
+				{
+					"name" : "name",
+					"kind" : "storage",
+					"scope" : "publicOnServer",
+					"indexed" : true,
+					"not_null" : true,
+					"type" : "string",
+					"indexKind" : "btree",
+					"pattern" : "^\\S+.+\\S$",
+					"minLength" : 2
+				},
+				{
+					"name" : "group",
+					"kind" : "storage",
+					"scope" : "publicOnServer",
+					"not_null" : true,
+					"type" : "string",
+					"pattern" : "^\\S+.+\\S$"
+				},
+				{
+					"name" : "password",
+					"kind" : "storage",
+					"scope" : "publicOnServer",
+					"not_null" : true,
+					"type" : "string",
+					"pattern" : "^\\S+.+\\S$",
+					"minLength" : 6
+				}
+			],
+			"key" : 
+			[
+				{
+					"name" : "id"
+				}
+			]
+		}
+	]
+}
