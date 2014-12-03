@@ -43,7 +43,7 @@
 				{
 					"name" : "id",
 					"kind" : "storage",
-					"scope" : "publicOnServer",
+					"scope" : "private",
 					"indexed" : true,
 					"unique" : true,
 					"autogenerate" : true,
@@ -53,8 +53,9 @@
 				{
 					"name" : "name",
 					"kind" : "storage",
-					"scope" : "publicOnServer",
+					"scope" : "private",
 					"indexed" : true,
+					"limiting_length" : 100,
 					"not_null" : true,
 					"type" : "string",
 					"indexKind" : "btree",
@@ -64,7 +65,7 @@
 				{
 					"name" : "group",
 					"kind" : "storage",
-					"scope" : "publicOnServer",
+					"scope" : "private",
 					"not_null" : true,
 					"type" : "string",
 					"pattern" : "^\\S+.+\\S$"
@@ -72,11 +73,21 @@
 				{
 					"name" : "password",
 					"kind" : "storage",
-					"scope" : "publicOnServer",
+					"scope" : "private",
 					"not_null" : true,
 					"type" : "string",
 					"pattern" : "^\\S+.+\\S$",
 					"minLength" : 6
+				},
+				{
+					"name" : "account",
+					"kind" : "storage",
+					"scope" : "private",
+					"indexed" : true,
+					"unique" : true,
+					"type" : "string",
+					"indexKind" : "btree",
+					"pattern" : "^\\S+.*\\S$"
 				}
 			],
 			"key" : 

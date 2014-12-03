@@ -1,0 +1,15 @@
+﻿.login-form {
+	max-width: 330px;
+	padding: 20px 15px;
+	/* centering */
+	margin: 0 auto;
+}
+
+.login-button {
+	margin: 0 auto;
+	display:block;	
+}
+
+.login-form input {
+	margin-bottom: 10px;
+}
