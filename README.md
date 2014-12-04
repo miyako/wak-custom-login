@@ -104,10 +104,12 @@ customLogin.setListener('userLogin');
 ```
 * Add an admin user to the Admin group, if you don't already have one. (to activate the directory system)
 
+* Add the Directory project to your solution.
+
 That' it!
 
 When you start the solution from the Studio, you need to enter the admin user/password from the directory. This is because the ServerAdmin project is always started before any of your own projects, and therefore the custom login is yet to be activated.
 
-After that, you can only login using credentials registered in the Directory project. You can CRUD users using the module's exported methods.
+After that, you can only login using credentials registered in the Directory project. You can CRUD users in the Directory project using the module's exported methods.
 
 
