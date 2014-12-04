@@ -102,7 +102,7 @@ var modulesFolder = FileSystemSync('Modules');
 var customLogin = require(modulesFolder.path + 'customLogin');
 customLogin.setListener('userLogin');
 ```
-4. Add an admin user to the Admin group, if you don't already have one. (to activate the directory system)
+* Add an admin user to the Admin group, if you don't already have one. (to activate the directory system)
 
 That' it!
 
