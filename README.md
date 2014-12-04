@@ -77,8 +77,7 @@ Install
 -------
 The module can be installed in any solution.
 
-1. Create a solution level filesystems.js, if you don't already have one, and follow the example.
-
+* Create a solution level filesystems.js, if you don't already have one, and follow the example.
 ```
   {
   "name":"Modules",
@@ -88,8 +87,7 @@ The module can be installed in any solution.
   }  
 ```
 
-2. Create a solution level required.js, if you don't already have one, and follow the example.
-
+* Create a solution level required.js, if you don't already have one, and follow the example.
 ```
 function userLogin(userName, password, isKey){	
 	var modulesFolder = FileSystemSync('Modules');
@@ -98,16 +96,18 @@ function userLogin(userName, password, isKey){
 }
 ```
 
-3. Create a boostrap in your project, if you don't already have one, and follow the example.
+* Create a boostrap in your project, if you don't already have one, and follow the example.
 ```
 var modulesFolder = FileSystemSync('Modules');
 var customLogin = require(modulesFolder.path + 'customLogin');
 customLogin.setListener('userLogin');
 ```
-4. Add an admin user to the Admin group, if you don't already have one.
+4. Add an admin user to the Admin group, if you don't already have one. (to activate the directory system)
 
 That' it!
 
+When you start the solution from the Studio, you need to enter the admin user/password from the directory. This is because the ServerAdmin project is always started before any of your own projects, and therefore the custom login is yet to be activated.
 
+After that, you can only login using credentials registered in the Directory project. You can CRUD users using the module's exported methods.
 
 
