@@ -48,6 +48,7 @@ customLogin.removeUser('miyako')
 ```
 
 *Testing the module*
+
 Open a browser and go to [http://127.0.0.1:8081/testServer?path=tests/customLogin.js](http://127.0.0.1:8081/testServer?path=tests/customLogin.js).
 
 The module also publishes a method to activate custom login, which is called in the bootstraps of SAMPLE.
@@ -61,7 +62,7 @@ var customLogin = require(modulesFolder.path + 'customLogin');
 customLogin.setListener('userLogin');
 ```
 
-The custom login method, in the solution's require.js, also calls the module.
+The custom login method, in the solution's require.js, also calls the module. The module uses its own private methods internally to access the Directory project and validate the login credentials. 
 
 *Required.js*
 ```
@@ -71,5 +72,6 @@ function userLogin(userName, password, isKey){
 	return customLogin.login(userName, password, isKey);
 }
 ```
+
 
 
