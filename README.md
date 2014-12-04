@@ -22,6 +22,7 @@ Directory is a local project, that is, it does not get published by the HTTP ser
 
 There is a solution level module, customLogin, which publishes API to access to the Directory project. The idea is that you always access the custom directory (in this example, the Directory project) using these APIs.
 
+* Examples
 ```
 var modulesFolder = FileSystemSync('Modules');
 var customLogin = require(modulesFolder.path + 'customLogin');
@@ -46,11 +47,12 @@ customLogin.countUsers();
 customLogin.removeUser('miyako')
 ```
 
-It also publishes a method to activate custom login, which is called in the bootstraps of SAMPLE.
+To test the module, open a browser and go to [http://127.0.0.1:8081/testServer?path=tests/customLogin.js](http://127.0.0.1:8081/testServer?path=tests/customLogin.js).
 
+The module also publishes a method to activate custom login, which is called in the bootstraps of SAMPLE.
+
+Code to run in boostrap
 ```
-//the module should be installed in the solution's modules folder
-//the directory should be made accesible by the solution's filesystems.json
 var modulesFolder = FileSystemSync('Modules');
 var customLogin = require(modulesFolder.path + 'customLogin');
 
