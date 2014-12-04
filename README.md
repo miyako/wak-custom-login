@@ -62,7 +62,7 @@ var customLogin = require(modulesFolder.path + 'customLogin');
 customLogin.setListener('userLogin');
 ```
 
-The custom login method, in the solution's require.js, also calls the module. The module uses its own private methods internally to access the Directory project and validate the login credentials. 
+The custom login method, in the solution's require.js, also calls the module. Code to access the Directory project and validate the login credentials are implemented inside the module so the only method you need to know is login. 
 
 *Required.js*
 ```
@@ -72,6 +72,42 @@ function userLogin(userName, password, isKey){
 	return customLogin.login(userName, password, isKey);
 }
 ```
+
+Install
+-------
+The module can be installed in any solution.
+
+1. Create a solution level filesystems.js, if you don't already have one, and follow the example.
+
+```
+  {
+  "name":"Modules",
+  "parent":"SOLUTION",
+  "path":"Modules",
+  "writable":true
+  }  
+```
+
+2. Create a solution level required.js, if you don't already have one, and follow the example.
+
+```
+function userLogin(userName, password, isKey){	
+	var modulesFolder = FileSystemSync('Modules');
+	var customLogin = require(modulesFolder.path + 'customLogin');
+	return customLogin.login(userName, password, isKey);
+}
+```
+
+3. Create a boostrap in your project, if you don't already have one, and follow the example.
+```
+var modulesFolder = FileSystemSync('Modules');
+var customLogin = require(modulesFolder.path + 'customLogin');
+customLogin.setListener('userLogin');
+```
+4. Add an admin user to the Admin group, if you don't already have one.
+
+That' it!
+
 
 
 
