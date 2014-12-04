@@ -22,7 +22,7 @@ Directory is a local project, that is, it does not get published by the HTTP ser
 
 There is a solution level module, customLogin, which publishes API to access to the Directory project. The idea is that you always access the custom directory (in this example, the Directory project) using these APIs.
 
-* Examples
+*Examples of using the module*
 ```
 var modulesFolder = FileSystemSync('Modules');
 var customLogin = require(modulesFolder.path + 'customLogin');
@@ -47,24 +47,24 @@ customLogin.countUsers();
 customLogin.removeUser('miyako')
 ```
 
-To test the module, open a browser and go to [http://127.0.0.1:8081/testServer?path=tests/customLogin.js](http://127.0.0.1:8081/testServer?path=tests/customLogin.js).
+*Testing the module*
+Open a browser and go to [http://127.0.0.1:8081/testServer?path=tests/customLogin.js](http://127.0.0.1:8081/testServer?path=tests/customLogin.js).
 
 The module also publishes a method to activate custom login, which is called in the bootstraps of SAMPLE.
 
-Code to run in boostrap
+*Boostrap Code*
 ```
 var modulesFolder = FileSystemSync('Modules');
 var customLogin = require(modulesFolder.path + 'customLogin');
 
-//pass the name of the function defined in solution/required.js
+//pass the name of the function you defined in solution/required.js
 customLogin.setListener('userLogin');
 ```
 
 The custom login method, in the solution's require.js, also calls the module.
 
+*Required.js*
 ```
-//must be a function published in the global context
-//http://doc.wakanda.org/Users-and-Groups/Directory/setLoginListener.301-871936.en.html 
 function userLogin(userName, password, isKey){	
 	var modulesFolder = FileSystemSync('Modules');
 	var customLogin = require(modulesFolder.path + 'customLogin');
@@ -73,9 +73,3 @@ function userLogin(userName, password, isKey){
 ```
 
 
-* The main project is SAMPLE.
-* It has a Bootstraps folder, with 1 file, customLogin.js.
-* The bootstrap file is therefore customLogin.js.
-* The script activates custom login. 
-* Custom login consults the Directory project for user/password validation.
-* There is just 1 user registered, user:miyako, pass:password.
