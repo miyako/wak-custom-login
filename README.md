@@ -1,7 +1,7 @@
 wak-custom-login
 ================
 
-Custom login module for Wakanda
+Custom login module for Wakanda.
 
 Sample
 ------
